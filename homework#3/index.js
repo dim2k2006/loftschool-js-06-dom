@@ -1,19 +1,29 @@
 var deleteTextNodes = function(container) {
-    var nodes = container.childNodes;
+    var type = container.nodeType,
+        sibling = '',
+        nodes = '';
 
-    for (item of nodes) {
+    if (type === 3) {
 
-        if (item.nodeType === 3) {
+        sibling = container.nextElementSibling;
+        container.remove();
+        if (sibling) {
 
-            container.removeChild(item);
+            deleteTextNodes(sibling);
+
+        }
+
+    } else {
+
+        nodes = container.childNodes;
+
+        for (item of nodes) {
+
+            deleteTextNodes(item);
 
         }
 
     }
 };
 
-var container = document.querySelector('.container');
-
-deleteTextNodes(container);
-
-// module.exports = deleteTextNodes;
+module.exports = deleteTextNodes;
